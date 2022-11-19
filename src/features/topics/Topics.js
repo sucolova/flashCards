@@ -5,14 +5,14 @@ import { selectTopicsSlice } from "./topicsSlice";
 import { useSelector } from "react-redux";
 
 export default function Topics() {
-  const topics = useSelector(selectTopicsSlice);
+  const topics = useSelector(selectTopicsSlice).topics
   console.log(topics);
 
   return (
     <section className="center">
       <h1>Topics</h1>
       <ul className="topics-list">
-        {Object.values(topics).map((topic) => (
+        {Object.keys(topics).length > 0 && Object.values(topics).map((topic) => ( // return if topics === empty Object
           <li className="topic" key={topic.id}>
             <Link to={ROUTES.topicRoute(topic.id)} className="topic-link">
               <div className="topic-container">
