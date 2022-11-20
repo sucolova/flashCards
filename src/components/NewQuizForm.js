@@ -5,6 +5,7 @@ import ROUTES from "../app/routes";
 import { createQuiz, addQuiz } from '../features/quizzes/quizzesSlice.js';
 import { useDispatch, useSelector } from "react-redux";
 import {selectTopicsSlice} from "../features/topics/topicsSlice";
+import { addCards } from "../features/cards/cardsSlice";
 
 export default function NewQuizForm() {
   const [name, setName] = useState("");
@@ -20,11 +21,14 @@ export default function NewQuizForm() {
       return;
     }
 
-    const cardIds = [];
+    const cardIds = cards.map(() => uuidv4()); // need an array of cardIds so i can refer to all cards in the quiz
+    console.log(cardIds);
+    const cardsWithIds = cards.map((card) => { // every card gats an id from the cardIds array
+      return {front: card.front, back: card.back, id: cardIds[cards.indexOf(card)]}
+    });
 
-    // create the new cards here and add each card's id to cardIds
-    // create the new quiz here
-    dispatch(createQuiz({name: name, topicId: topicId, cardIds: cardIds, id: uuidv4()}));
+    dispatch(addCards(cardsWithIds)); // add all the cards for that quiz to the state
+    dispatch(createQuiz({name: name, topicId: topicId, cardIds: cardIds, id: uuidv4()})); // add quiz and all cardIds to the state
     history.push(ROUTES.quizzesRoute());
   };
 
