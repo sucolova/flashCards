@@ -6,24 +6,23 @@ import { useSelector } from "react-redux";
 
 export default function Topics() {
   const topics = useSelector(selectTopicsSlice).topics
-  console.log(topics);
 
   return (
     <section className="center">
       <h1>Topics</h1>
       <ul className="topics-list">
         {Object.keys(topics).length > 0 && Object.values(topics).map((topic) => ( // return if topics === empty Object
-          <li className="topic" key={topic.id}>
-            <Link to={ROUTES.topicRoute(topic.id)} className="topic-link">
-              <div className="topic-container">
-                <img src={topic.icon} alt="" />
-                <div className="text-content">
-                  <h2>{topic.name}</h2>
-                  <p>{topic.quizIds.length} Quizzes</p>
-                </div>
+        <li className="topic" key={topic.id}>
+          <Link to={ROUTES.topicRoute(topic.id)} className="topic-link">
+            <div className="topic-container">
+              <img src={topic.icon} alt="" />
+              <div className="text-content">
+                <h2>{topic.name}</h2>
+                <p>{topic.quizIds.length} Quizzes</p>
               </div>
-            </Link>
-          </li>
+            </div>
+          </Link>
+        </li>
         ))}
       </ul>
       <Link

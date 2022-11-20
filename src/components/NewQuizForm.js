@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import ROUTES from "../app/routes";
+import { createQuiz, addQuiz } from '../features/quizzes/quizzesSlice.js';
+import { useDispatch, useSelector } from "react-redux";
+import {selectTopicsSlice} from "../features/topics/topicsSlice";
 
 export default function NewQuizForm() {
   const [name, setName] = useState("");
   const [cards, setCards] = useState([]);
   const [topicId, setTopicId] = useState("");
   const history = useHistory();
-  const topics = {};
+  const topics = useSelector(selectTopicsSlice).topics;
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +24,7 @@ export default function NewQuizForm() {
 
     // create the new cards here and add each card's id to cardIds
     // create the new quiz here
-
+    dispatch(createQuiz({name: name, topicId: topicId, cardIds: cardIds, id: uuidv4()}));
     history.push(ROUTES.quizzesRoute());
   };
 
@@ -68,7 +72,7 @@ export default function NewQuizForm() {
               id={`card-front-${index}`}
               value={cards[index].front}
               onChange={(e) =>
-                updateCardState(index, "front", e.currentTarget.value)
+                  updateCardState(index, "front", e.currentTarget.value)
               }
               placeholder="Front"
             />
@@ -77,7 +81,7 @@ export default function NewQuizForm() {
               id={`card-back-${index}`}
               value={cards[index].back}
               onChange={(e) =>
-                updateCardState(index, "back", e.currentTarget.value)
+                  updateCardState(index, "back", e.currentTarget.value)
               }
               placeholder="Back"
             />

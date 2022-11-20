@@ -11,7 +11,7 @@ const topicsSlice = createSlice({
       state.topics[action.payload.id].quizIds = [];
     },
     addQuizId: (state, action) => {
-      state.topics[action.payload.topicId].quizIds.push(action.payload.quizId);
+      state.topics[action.payload.topicId].quizIds.push(action.payload.id); // id = the quizId from the quizForm
     }
   },
 });
